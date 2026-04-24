@@ -21,215 +21,60 @@
  */
 
 export const sdl = /* GraphQL */ `
-
   # ========================
   # OUTPUT TYPES
   # ========================
+  type PriceSheetData {
+    templateId: Int
+    templateType: PriceSheetTemplateType
+    templateStatus: PriceSheetTemplateStatus
+    serviceName: PriceSheetServices
 
-  type PriceSheetTemplateEquityMena {
-    exchange: String
-    marketCode: String
-    marketId: String
-    subMarket: String
+    data: [PriceSheetDataRow]
+  }
+
+  type PriceSheetDataRow {
+    exchangeId: Long
+    exchangeCode: String
+    marketCode: String # TODO
+    marketId: Int
+    subMarket: PriceSheetInstrumentType
     currency: String
-    session: String
-    buyOrderValueQty: String
+    marketSession: PriceSheetMarketSession
 
-    brokerCommissionBps: Float
-    minFeePerTrade: Float
-    safeCustodyFees: Float
-    fixedAmountPerTrade: Float
-    transactionFeeBps: Float
-    vatBps: Float
-    stampDutyBps: Float
-    ibCommissionBps: Float
-    settlementFeePerIsin: Float
-    fractionalSupported: Float
+    # Commission / Order fees
+    commissionOrderFeeId: Int
+    commissionOrderFeeTierNo: Int
+    commissionOrderFeeTierFrom: Float
+    commissionOrderFeeTierTo: Float
+    commissionOrderFeeRangeType: PriceSheetRangeType
+    commissionOrderFeeSlabNo: Int
+    commissionOrderFeeSlabFrom: Float
+    commissionOrderFeeSlabTo: Float
+    commissionOrderFeeUserValue: Float
+    commissionOrderFeeDefaultValue: Float
+    commissionOrderFeeMinValue: Float
+    commissionOrderFeeUnit: PriceSheetValueConfigUnit
+    commissionOrderFeeCreatedDate: Date
+    commissionOrderFeeModifiedDate: Date
   }
 
-  type PriceSheetTemplateEquityAsia {
-    exchange: String
-    marketCode: String
-    marketId: String
-    subMarket: String
-    currency: String
-    session: String
-    buyOrderValueQty: String
-
-    brokerCommissionBps: Float
-    minFeePerTrade: Float
-    safeCustodyFees: Float
-    fixedAmountPerTrade: Float
-    transactionFeeBps: Float
-    vatBps: Float
-    stampDutyBps: Float
-    ibCommissionBps: Float
-    regulatoryFees: Float
-    settlementFeePerIsin: Float
-    fractionalSupported: Float
+  type PriceSheetTieredSlab {
+    tieredFrom: Float
+    tieredTo: Float
+    buyOrderValueQty: Float
+    brokerCommissionSlabs: [PriceSheetBrokerCommissionSlab]
   }
 
-  type PriceSheetTemplateEquityEuropeUs {
-    exchange: String
-    marketCode: String
-    marketId: String
-    subMarket: String
-    currency: String
-    session: String
-
-    tieredQty: String
-    buyOrderValueQty: String
-
-    brokerCommissionFrom: Float
-    brokerCommissionTo: Float
-    brokerCommissionBps: Float
-
-    minFeePerTrade: Float
-    safeCustodyFees: Float
-    fixedAmountPerTrade: Float
-    transactionFeeBps: Float
-    vatBps: Float
-    stampDutyBps: Float
-    ptmLevyBps: Float
-    regulatoryFees: Float
-    settlementFeePerIsin: Float
-    fractionalSupported: Float
+  type PriceSheetBrokerCommissionSlab {
+    from: Float
+    to: Float
+    bps: Int
   }
 
-  type PriceSheetTemplateOption {
-    exchange: String
-    marketCode: String
-    marketId: String
-    subMarket: String
-    currency: String
-    session: String
-
-    instrumentType: String
-    buyOrderValueQty: String
-
-    brokerCommissionBps: Float
-    minFeePerTrade: Float
-    safeCustodyFees: Float
-    fixedAmountPerTrade: Float
-    transactionFeeBps: Float
-    vatBps: Float
-    stampDutyBps: Float
-    ibCommissionBps: Float
-    settlementFeePerIsin: Float
-    fractionalSupported: Float
-  }
-
-  type PriceSheetTemplateCFD {
-    exchange: String
-    marketCode: String
-    marketId: String
-    subMarket: String
-    currency: String
-    session: String
-    buyOrderValueQty: String
-
-    brokerCommissionBps: Float
-    minFeePerTrade: Float
-    safeCustodyFees: Float
-    fixedAmountPerTrade: Float
-    transactionFeeBps: Float
-    vatBps: Float
-    stampDutyBps: Float
-    ibCommissionBps: Float
-    settlementFeePerIsin: Float
-    fractionalSupported: Float
-  }
-
-  # ========================
-  # INPUT TYPES
-  # ========================
-
-  input PriceSheetTemplateEquityMenaInput {
-    exchange: String
-    brokerCommissionBps: Float
-    minFeePerTrade: Float
-    safeCustodyFees: Float
-    fixedAmountPerTrade: Float
-    transactionFeeBps: Float
-    vatBps: Float
-    stampDutyBps: Float
-    ibCommissionBps: Float
-    settlementFeePerIsin: Float
-    fractionalSupported: Float
-  }
-
-  input PriceSheetTemplateEquityAsiaInput {
-    exchange: String
-    brokerCommissionBps: Float
-    minFeePerTrade: Float
-    safeCustodyFees: Float
-    fixedAmountPerTrade: Float
-    transactionFeeBps: Float
-    vatBps: Float
-    stampDutyBps: Float
-    ibCommissionBps: Float
-    regulatoryFees: Float
-    settlementFeePerIsin: Float
-    fractionalSupported: Float
-  }
-
-  input PriceSheetTemplateEquityEuropeUsInput {
-    exchange: String
-    marketId: String
-    subMarket: String
-    currency: String
-    session: String
-    marketCode: String
-    tieredQty: String
-    buyOrderValueQty: String
-
-    brokerCommissionFrom: Float
-    brokerCommissionTo: Float
-    brokerCommissionBps: Float
-
-    minFeePerTrade: Float
-    fixedAmountPerTrade: Float
-    safeCustodyFees: Float
-    transactionFeeBps: Float
-    vatBps: Float
-    stampDutyBps: Float
-    ptmLevyBps: Float
-    regulatoryFees: Float
-    settlementFeePerIsin: Float
-    fractionalSupported: Float
-  }
-
-  input PriceSheetTemplateOptionInput {
-    exchange: String
-    instrumentType: String
-    buyOrderValueQty: String
-
-    brokerCommissionBps: Float
-    minFeePerTrade: Float
-    safeCustodyFees: Float
-    fixedAmountPerTrade: Float
-    transactionFeeBps: Float
-    vatBps: Float
-    stampDutyBps: Float
-    ibCommissionBps: Float
-    settlementFeePerIsin: Float
-    fractionalSupported: Float
-  }
-
-  input PriceSheetTemplateCFDInput {
-    exchange: String
-    buyOrderValueQty: String
-
-    brokerCommissionBps: Float
-    minFeePerTrade: Float
-    safeCustodyFees: Float
-    fixedAmountPerTrade: Float
-    transactionFeeBps: Float
-    vatBps: Float
-    stampDutyBps: Float
-    ibCommissionBps: Float
-    settlementFeePerIsin: Float
-    fractionalSupported: Float
+  type PriceSheetServiceResponse {
+    templateId: Int
+    services: [PriceSheetServices]
   }
 
   # ========================
@@ -237,11 +82,15 @@ export const sdl = /* GraphQL */ `
   # ========================
 
   extend type Query {
-    getPriceSheetTemplateEquityMena: [PriceSheetTemplateEquityMena]
-    getPriceSheetTemplateEquityAsia: [PriceSheetTemplateEquityAsia]
-    getPriceSheetTemplateEquityEuropeUs: [PriceSheetTemplateEquityEuropeUs]
-    getPriceSheetTemplateOption: [PriceSheetTemplateOption]
-    getPriceSheetTemplateCFD: [PriceSheetTemplateCFD]
+    getPriceSheetServices(
+      priceSheetServicesRequest: PriceSheetServicesGetRequest!
+    ): PriceSheetServiceResponse
+    getPriceSheetData(
+      filter: Filter!
+      page: Pagination
+      config: Config
+      priceSheetDataRequest: PriceSheetDataRequest!
+    ): PriceSheetData
   }
 
   # ========================
@@ -249,11 +98,7 @@ export const sdl = /* GraphQL */ `
   # ========================
 
   extend type Mutation {
-    updatePriceSheetTemplateEquityMena(rows: [PriceSheetTemplateEquityMenaInput!]!): Boolean
-    updatePriceSheetTemplateEquityAsia(rows: [PriceSheetTemplateEquityAsiaInput!]!): Boolean
-    updatePriceSheetTemplateEquityEuropeUs(rows: [PriceSheetTemplateEquityEuropeUsInput!]!): Boolean
-    updatePriceSheetTemplateOption(rows: [PriceSheetTemplateOptionInput!]!): Boolean
-    updatePriceSheetTemplateCFD(rows: [PriceSheetTemplateCFDInput!]!): Boolean
+    upsertPriceSheetServices(request: PriceSheetServiceUpsertRequest!): Boolean
     upsertPriceSheetData(request: PriceSheetDataInput!): Boolean
   }
 
@@ -261,45 +106,148 @@ export const sdl = /* GraphQL */ `
   # APPLICABILITY ENUMS
   # ========================
 
-  enum PriceSheetTemplateType {
-    Default
-    Customized
+  enum PriceSheetExchangeRegions {
+    DIFC
+    ASIA
+    EUROPE
+    US
+    HK
+  }
+
+  enum PriceSheetFeeType {
+    BrokerCommission
+    SafeCustodyFee
+    TransactionFee
+    VAT
+    StampDuty
+    IbCommission
+    SubscriptionFees
+    RegulatoryFees
+    SettlementFeePerIsinPerDay
+    PtmLevy
+    OrderFees
+  }
+
+  enum PriceSheetInstrumentType {
+    IndexOptions
+    RegularOptions
+    All
+  }
+
+  enum PriceSheetMarketSession {
+    Pre
+    Reg
+    Post
+    All
+    OverNight
+    Extended
+  }
+
+  enum PriceSheetRangeType {
+    Value
+    Volume
+    SharePrice
+    OrderSide
+  }
+
+  enum PriceSheetServices {
+    EquitiesMENA
+    EquitiesAsia
+    EquitiesEuropeUS
+    Options
+    CFDs
+    CfdFxMarkupGroups
+    CommitmentFees
   }
 
   enum PriceSheetTemplateStatus {
     Live
     Draft
     Pending
-    L1_Approved
-    Pending_L2
-    L2_Approved
+    L1Approved
+    PendingL2
+    L2Approved
     Rejected
   }
 
-  enum PriceSheetServices {
-    Equities_MENA
-    Equities_ASIA
-    Equities_Europe_US
-    Options
-    CFDs
-    CFD_FX_Markup_Groups
-    Commitment_Fees
+  enum PriceSheetTemplateType {
+    Default
+    Customized
+  }
+
+  enum PriceSheetValueConfigUnit {
+    BPS
+    USD
   }
 
   # ========================
   # APPLICABILITY INPUT
   # ========================
 
-  input PriceSheetDataRowInput {
-    key: String
-    value: String
-  }
-
   input PriceSheetDataInput {
     templateId: Int!
     templateType: PriceSheetTemplateType!
     templateStatus: PriceSheetTemplateStatus!
     serviceName: PriceSheetServices!
+
     data: [PriceSheetDataRowInput]
+  }
+
+  input PriceSheetDataRowInput {
+    exchangeCode: String!
+    marketCode: String # TODO
+    marketId: Int
+    subMarket: String
+    currency: String
+    marketSession: PriceSheetMarketSession!
+
+    # Commission / Order fees
+    #    commissionOrderFeeId: Int // Add modified date based on this
+    commissionOrderFeeTierFrom: Float
+    commissionOrderFeeTierTo: Float
+    commissionOrderFeeRangeType: PriceSheetRangeType!
+    commissionOrderFeeSlabFrom: Float
+    commissionOrderFeeSlabTo: Float
+    commissionOrderFeeUserValue: Float
+    commissionOrderFeeDefaultValue: Float
+    commissionOrderFeeMinValue: Float
+    commissionOrderFeeUnit: PriceSheetValueConfigUnit
+    commissionOrderFeeCreatedDate: Date
+    commissionOrderFeeModifiedDate: Date
+  }
+
+  input PriceSheetBrokerCommissionSlabInput {
+    from: Float
+    to: Float
+    rageType: Int
+    value: PriceSheetValueConfigInput
+  }
+
+  input PriceSheetTieredSlabInput {
+    tieredFrom: Float
+    tieredTo: Float
+    brokerCommissionSlabs: [PriceSheetBrokerCommissionSlabInput]
+  }
+
+  input PriceSheetValueConfigInput {
+    userValue: Float!
+    defaultValue: Float!
+    minValue: Float
+    unit: Int
+  }
+
+  input PriceSheetDataRequest {
+    isDefault: Boolean!
+    serviceName: PriceSheetServices!
+    priceSheetTemplateId: Int!
+  }
+
+  input PriceSheetServicesGetRequest {
+    templateId: Int!
+  }
+
+  input PriceSheetServiceUpsertRequest {
+    templateId: Int!
+    services: [PriceSheetServices]!
   }
 `;
