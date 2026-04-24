@@ -77,6 +77,29 @@ export const sdl = /* GraphQL */ `
     services: [PriceSheetServices]
   }
 
+  type PriceSheetTemplate {
+    id: ID
+    templateType: PriceSheetTemplateType
+    status: PriceSheetTemplateStatus
+    clientId: String
+    clientName: String
+    gtnEntity: GtnEntity
+    createdBy: Long
+    createdDate: Date
+    requestedBy: Long
+    requestedDate: Date
+    l1ApprovedBy: Long
+    l1ApprovedDate: Date
+    l2ApprovedBy: Long
+    l2ApprovedDate: Date
+    rejectedBy: Long
+    rejectedDate: Date
+    promotedToLiveBy: Long
+    promotedToLiveDate: Date
+    statusChangedBy: Long
+    statusChangedDate: Date
+  }
+
   # ========================
   # QUERIES
   # ========================
@@ -100,6 +123,7 @@ export const sdl = /* GraphQL */ `
   extend type Mutation {
     upsertPriceSheetServices(request: PriceSheetServiceUpsertRequest!): Boolean
     upsertPriceSheetData(request: PriceSheetDataInput!): Boolean
+    createPriceSheet(input: PriceSheetCreateInput!): PriceSheetTemplate
   }
 
   # ========================
@@ -179,6 +203,23 @@ export const sdl = /* GraphQL */ `
     BPS
     USD
   }
+  
+  enum GtnEntity {
+    MENA
+    Asia
+    Europe
+    HongKong
+    US
+    Unknown
+  }
+
+  enum PriceSheetExchangeType {
+    Equity
+    Options
+    CFD
+    Unknown
+  }
+ 
 
   # ========================
   # APPLICABILITY INPUT
@@ -250,4 +291,13 @@ export const sdl = /* GraphQL */ `
     templateId: Int!
     services: [PriceSheetServices]!
   }
+
+  input PriceSheetCreateInput {
+    gtnEntity: GtnEntity!
+    clientName: String!
+    clientId: String!
+    services: [PriceSheetExchangeType]!
+    exchanges: [String]!
+  }
+ 
 `;
