@@ -56,6 +56,7 @@ export const sdl = /* GraphQL */ `
     commissionOrderFeeUnit: PriceSheetValueConfigUnit
     commissionOrderFeeCreatedDate: Date
     commissionOrderFeeModifiedDate: Date
+    commissionOrderFeeInstrumentType: PriceSheetInstrumentType
   }
 
   type PriceSheetTieredSlab {
@@ -254,6 +255,7 @@ export const sdl = /* GraphQL */ `
     commissionOrderFeeUnit: PriceSheetValueConfigUnit
     commissionOrderFeeCreatedDate: Date
     commissionOrderFeeModifiedDate: Date
+    commissionOrderFeeInstrumentType: PriceSheetInstrumentType
   }
 
   input PriceSheetBrokerCommissionSlabInput {
