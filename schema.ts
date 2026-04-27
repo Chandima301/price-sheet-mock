@@ -36,11 +36,10 @@ export const sdl = /* GraphQL */ `
   type PriceSheetDataRow {
     exchangeId: Long
     exchangeCode: String
-    marketCode: String # TODO
-    marketId: Int
-    subMarket: PriceSheetInstrumentType
+    marketId: String
+    subMarket: String
     currency: String
-    marketSession: PriceSheetMarketSession
+    marketSession: MarketSessionType
 
     # Commission / Order fees
     commissionOrderFeeId: Int
@@ -57,6 +56,7 @@ export const sdl = /* GraphQL */ `
     commissionOrderFeeUnit: PriceSheetValueConfigUnit
     commissionOrderFeeCreatedDate: Date
     commissionOrderFeeModifiedDate: Date
+    commissionOrderFeeInstrumentType: PriceSheetInstrumentType
   }
 
   type PriceSheetTieredSlab {
@@ -158,13 +158,15 @@ export const sdl = /* GraphQL */ `
     All
   }
 
-  enum PriceSheetMarketSession {
+  enum MarketSessionType {
     Pre
     Reg
     Post
     All
     OverNight
     Extended
+    Pre2
+    Unknown
   }
 
   enum PriceSheetRangeType {
@@ -203,7 +205,7 @@ export const sdl = /* GraphQL */ `
     BPS
     USD
   }
-  
+
   enum GtnEntity {
     MENA
     Asia
@@ -219,7 +221,6 @@ export const sdl = /* GraphQL */ `
     CFD
     Unknown
   }
- 
 
   # ========================
   # APPLICABILITY INPUT
@@ -236,11 +237,10 @@ export const sdl = /* GraphQL */ `
 
   input PriceSheetDataRowInput {
     exchangeCode: String!
-    marketCode: String # TODO
-    marketId: Int
+    marketId: String
     subMarket: String
     currency: String
-    marketSession: PriceSheetMarketSession!
+    marketSession: MarketSessionType!
 
     # Commission / Order fees
     #    commissionOrderFeeId: Int // Add modified date based on this
@@ -255,6 +255,7 @@ export const sdl = /* GraphQL */ `
     commissionOrderFeeUnit: PriceSheetValueConfigUnit
     commissionOrderFeeCreatedDate: Date
     commissionOrderFeeModifiedDate: Date
+    commissionOrderFeeInstrumentType: PriceSheetInstrumentType
   }
 
   input PriceSheetBrokerCommissionSlabInput {
@@ -299,5 +300,4 @@ export const sdl = /* GraphQL */ `
     services: [PriceSheetExchangeType]!
     exchanges: [String]!
   }
- 
 `;
